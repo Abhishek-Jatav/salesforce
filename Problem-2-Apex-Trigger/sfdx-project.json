@@ -1,0 +1,11 @@
+{
+    "packageDirectories": [
+        {
+            "path": "force-app",
+            "default": true
+        }
+    ],
+    "name": "Problem-2-Apex-Trigger",
+    "namespace": "",
+    "sourceApiVersion": "61.0"
+}

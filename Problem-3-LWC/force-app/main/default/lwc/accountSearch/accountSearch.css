@@ -1,0 +1,168 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Account Search LWC – Component Styles
+   Follows SLDS conventions; all colours are SLDS design tokens.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Search bar ─────────────────────────────────────────────────────────── */
+.search-bar {
+    display               : flex;
+    align-items           : center;
+    border-bottom         : 1px solid var(--lwc-colorBorder, #dddbda);
+    padding-bottom        : 0.75rem;
+    margin-bottom         : 0.75rem;
+}
+
+.search-input {
+    flex: 1;
+}
+
+/* ── Spinner wrapper ────────────────────────────────────────────────────── */
+.spinner-wrapper {
+    position  : relative;
+    min-height: 8rem;
+    display   : flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Generic state container (idle / empty / error) ────────────────────── */
+.state-container {
+    display        : flex;
+    flex-direction : column;
+    align-items    : center;
+    justify-content: center;
+    padding        : 3rem 1.5rem;
+    text-align     : center;
+    gap            : 0.5rem;
+}
+
+.state-title {
+    font-size  : 1.125rem;
+    font-weight: 600;
+    color      : var(--lwc-colorTextDefault, #181818);
+    margin     : 0.75rem 0 0.25rem;
+}
+
+.state-subtitle {
+    font-size : 0.875rem;
+    color     : var(--lwc-colorTextWeak, #706e6b);
+    max-width : 28rem;
+    line-height: 1.5;
+    margin    : 0;
+}
+
+.state-idle lightning-icon,
+.state-empty lightning-icon {
+    opacity: 0.45;
+}
+
+/* ── Table wrapper ──────────────────────────────────────────────────────── */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10);
+}
+
+/* ── SLDS table overrides ───────────────────────────────────────────────── */
+.slds-table thead tr {
+    background-color: var(--lwc-colorBackgroundRowHeaderHover, #f3f3f3);
+}
+
+.slds-table thead th {
+    font-size  : 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color      : var(--lwc-colorTextLabel, #3e3e3c);
+    white-space: nowrap;
+    padding    : 0.6rem 0.75rem;
+}
+
+/* ── Column widths ──────────────────────────────────────────────────────── */
+.col-name     { width: 32%; min-width: 10rem; }
+.col-industry { width: 22%; min-width: 8rem;  }
+.col-phone    { width: 22%; min-width: 8rem;  }
+.col-revenue  { width: 24%; min-width: 8rem;  }
+
+/* ── Clickable rows ─────────────────────────────────────────────────────── */
+.account-row {
+    cursor    : pointer;
+    transition: background-color 0.12s ease;
+}
+
+.account-row:hover {
+    background-color: var(--lwc-colorBackgroundRowActive, #e8f4ff) !important;
+}
+
+.account-row:focus {
+    outline       : 2px solid var(--lwc-colorBorderInputActive, #1b96ff);
+    outline-offset: -2px;
+}
+
+/* ── Account name cell ──────────────────────────────────────────────────── */
+.account-name-cell {
+    display    : flex;
+    align-items: center;
+    gap        : 0.4rem;
+    font-weight: 500;
+    color      : var(--lwc-colorTextLink, #0176d3);
+}
+
+.row-icon {
+    flex-shrink: 0;
+}
+
+/* ── Industry badge ─────────────────────────────────────────────────────── */
+.industry-badge {
+    --slds-c-badge-color-background: var(--lwc-colorBackgroundBadge, #e4f2fe);
+    --slds-c-badge-text-color      : var(--lwc-colorTextLink, #0176d3);
+    font-size: 0.75rem;
+}
+
+/* ── Phone link ─────────────────────────────────────────────────────────── */
+.phone-link {
+    color          : var(--lwc-colorTextLink, #0176d3);
+    text-decoration: none;
+}
+
+.phone-link:hover {
+    text-decoration: underline;
+}
+
+/* ── Revenue cell ───────────────────────────────────────────────────────── */
+.revenue-cell {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--lwc-colorTextDefault, #181818);
+}
+
+/* ── Empty cell placeholder ─────────────────────────────────────────────── */
+.empty-cell {
+    color: var(--lwc-colorTextPlaceholder, #ababab);
+}
+
+/* ── Result count footer ────────────────────────────────────────────────── */
+.result-footer {
+    display        : flex;
+    justify-content: flex-end;
+    padding        : 0.5rem 0.75rem;
+    border-top     : 1px solid var(--lwc-colorBorder, #dddbda);
+    background     : var(--lwc-colorBackgroundRowHeader, #fafaf9);
+}
+
+.result-count {
+    font-size: 0.75rem;
+    color    : var(--lwc-colorTextWeak, #706e6b);
+}
+
+/* ── Responsive: stack revenue column on narrow viewports ───────────────── */
+@media (max-width: 480px) {
+    .col-revenue,
+    th.col-revenue {
+        display: none;
+    }
+
+    .col-name     { width: 40%; }
+    .col-industry { width: 30%; }
+    .col-phone    { width: 30%; }
+}

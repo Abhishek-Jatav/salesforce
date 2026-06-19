@@ -1,0 +1,164 @@
+<template>
+    <lightning-card title="Account Search" icon-name="standard:account">
+
+        <!-- ── Search Input ─────────────────────────────────────────────── -->
+        <div class="slds-var-p-horizontal_medium slds-var-p-top_medium search-bar">
+            <lightning-input
+                type="search"
+                label="Search Accounts"
+                placeholder="Type an account name…"
+                variant="label-hidden"
+                value={searchTerm}
+                onchange={handleSearchChange}
+                class="search-input"
+            ></lightning-input>
+        </div>
+
+        <!-- ── Body ─────────────────────────────────────────────────────── -->
+        <div class="slds-var-p-horizontal_medium slds-var-p-bottom_medium">
+
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <div class="spinner-wrapper">
+                    <lightning-spinner
+                        alternative-text="Searching accounts…"
+                        size="medium"
+                        variant="brand"
+                    ></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Error State -->
+            <template if:true={hasError}>
+                <div class="state-container state-error">
+                    <lightning-icon
+                        icon-name="utility:error"
+                        alternative-text="Error"
+                        variant="error"
+                        size="medium"
+                    ></lightning-icon>
+                    <p class="state-title">Something went wrong</p>
+                    <p class="state-subtitle">{errorMessage}</p>
+                </div>
+            </template>
+
+            <!-- No Results State -->
+            <template if:true={showNoResults}>
+                <div class="state-container state-empty">
+                    <lightning-icon
+                        icon-name="utility:search"
+                        alternative-text="No results"
+                        size="large"
+                    ></lightning-icon>
+                    <p class="state-title">No accounts found</p>
+                    <p class="state-subtitle">
+                        Try a different search term or clear the field to browse all accounts.
+                    </p>
+                </div>
+            </template>
+
+            <!-- Data Table -->
+            <template if:true={showTable}>
+                <div class="table-wrapper">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" class="col-name">
+                                    <div class="slds-truncate" title="Account Name">Account Name</div>
+                                </th>
+                                <th scope="col" class="col-industry">
+                                    <div class="slds-truncate" title="Industry">Industry</div>
+                                </th>
+                                <th scope="col" class="col-phone">
+                                    <div class="slds-truncate" title="Phone">Phone</div>
+                                </th>
+                                <th scope="col" class="col-revenue">
+                                    <div class="slds-truncate" title="Annual Revenue">Annual Revenue</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={accounts} for:item="acc">
+                                <tr
+                                    key={acc.Id}
+                                    class="account-row"
+                                    data-id={acc.Id}
+                                    onclick={handleRowClick}
+                                    role="button"
+                                    tabindex="0"
+                                    onkeypress={handleRowKeypress}
+                                    title="Open {acc.Name}"
+                                >
+                                    <td class="col-name">
+                                        <div class="slds-truncate account-name-cell">
+                                            <lightning-icon
+                                                icon-name="standard:account"
+                                                size="x-small"
+                                                alternative-text="Account"
+                                                class="row-icon"
+                                            ></lightning-icon>
+                                            <span>{acc.Name}</span>
+                                        </div>
+                                    </td>
+                                    <td class="col-industry">
+                                        <div class="slds-truncate">
+                                            <template if:true={acc.Industry}>
+                                                <lightning-badge
+                                                    label={acc.Industry}
+                                                    class="industry-badge"
+                                                ></lightning-badge>
+                                            </template>
+                                            <template if:false={acc.Industry}>
+                                                <span class="empty-cell">—</span>
+                                            </template>
+                                        </div>
+                                    </td>
+                                    <td class="col-phone">
+                                        <div class="slds-truncate">
+                                            <template if:true={acc.Phone}>
+                                                <a
+                                                    href={acc.phoneHref}
+                                                    onclick={handlePhoneClick}
+                                                    class="phone-link"
+                                                >{acc.Phone}</a>
+                                            </template>
+                                            <template if:false={acc.Phone}>
+                                                <span class="empty-cell">—</span>
+                                            </template>
+                                        </div>
+                                    </td>
+                                    <td class="col-revenue">
+                                        <div class="slds-truncate revenue-cell">
+                                            {acc.formattedRevenue}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <!-- Result Count Footer -->
+                    <div class="result-footer">
+                        <span class="result-count">{resultCountLabel}</span>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Initial / Idle State (no search performed yet) -->
+            <template if:true={showIdleState}>
+                <div class="state-container state-idle">
+                    <lightning-icon
+                        icon-name="standard:account"
+                        alternative-text="Accounts"
+                        size="large"
+                    ></lightning-icon>
+                    <p class="state-title">Search your accounts</p>
+                    <p class="state-subtitle">
+                        Enter an account name above to find matching records.
+                    </p>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
